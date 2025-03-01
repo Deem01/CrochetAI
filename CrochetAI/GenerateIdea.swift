@@ -28,7 +28,7 @@ struct GenerateIdea: View {
            VStack {
                HStack{
                    Image("crochet icon")
-                    .padding(.leading, 20) // Adjust the leading padding as needed
+                    .padding(.leading, 20)
                      Spacer()
                }
 
@@ -44,7 +44,8 @@ struct GenerateIdea: View {
                    VStack {
                        HStack{
                            Text("Generate Idea")
-                               .font(.title)
+                               .font(.title2)
+                               .fontWeight(.semibold)
                            Spacer()
                        }
                        TextField("Describe your dream crochet project...", text: $projectDescription, axis: .vertical)
@@ -60,15 +61,18 @@ struct GenerateIdea: View {
                            )
                            .multilineTextAlignment(.leading) // محاذاة النص لليسار (أو لليمين حسب اللغة)
    
-                       Button("Generate Ideas") {
+                       Button(action: {
                            // Add action here
+                       }) {
+                           Text("Generate Ideas")
+                               .frame(maxWidth: .infinity)
+                               .padding()
+                               .frame(height: 40)
+                               .background(Color.pc)
+                               .foregroundColor(.white)
+                               .cornerRadius(10)
                        }
-                       .frame(maxWidth: .infinity)
-                       .padding()
-                       .frame(height: 40)
-                       .background(Color.pc)
-                       .foregroundColor(.white)
-                       .cornerRadius(10)
+                       .contentShape(Rectangle())
                     
                        Button(action: { showPreferences.toggle() }) {
                            HStack {
@@ -88,9 +92,10 @@ struct GenerateIdea: View {
                        }
 
                        // Preferences Section
-                       if showPreferences {
-                            PreferencesView()
-                       }
+                       PreferencesView()
+                                       .opacity(showPreferences ? 1 : 0)
+                                       .animation(.easeInOut, value: showPreferences)
+                                       .fixedSize(horizontal: false, vertical: true)
                    }
                    .padding()
                    .background(RoundedRectangle(cornerRadius: 12).fill(Color.white).shadow(radius: 2))
@@ -120,10 +125,13 @@ struct PreferencesView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("🧵 Pattern Preferences")
-                .font(.headline)
-                .padding(.vertical, 20)
-
+            HStack{
+                Image(systemName: "slider.horizontal.2.square")
+                Text("Pattern Preferences")
+                    .font(.headline)
+                    .padding(.vertical, 20)
+                  
+            }
             PreferenceRow(title: "Skill Level", value: $skillLevel, options: skillLevels, expandedMenu: $expandedMenu)
             PreferenceRow(title: "Yarn Weight", value: $yarnWeight, options: yarnWeights, expandedMenu: $expandedMenu)
             PreferenceRow(title: "Project Size", value: $projectSize, options: projectSizes, expandedMenu: $expandedMenu)
@@ -132,7 +140,6 @@ struct PreferencesView: View {
        // .padding()
     }
 }
-
 struct PreferenceRow: View {
     let title: String
     @Binding var value: String
