@@ -23,7 +23,6 @@ struct GenerateIdea: View {
            // تغيير لون النص عندما لا يكون محددًا
            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
        }
-       
        var body: some View {
            VStack {
                HStack{
